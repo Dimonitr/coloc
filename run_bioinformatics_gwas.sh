@@ -5,10 +5,10 @@
 #SBATCH -t 24:00:00
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=8GB
+#SBATCH --partition=main
 
 module load any/jdk/1.8.0_265
-module load nextflow
-module load any/singularity/3.5.3
+module load any/singularity/3.7.3
 module load squashfs/4.4
 
 cwd=$(pwd)
