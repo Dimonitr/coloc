@@ -12,6 +12,10 @@ wget http://ftp.ebi.ac.uk/pub/databases/spot/eQTL/sumstats/QTS000035/QTD000584/Q
 wget http://ftp.ebi.ac.uk/pub/databases/spot/eQTL/susie/QTS000035/QTD000584/QTD000584.lbf_variable.txt.gz
 wget http://ftp.ebi.ac.uk/pub/databases/spot/eQTL/susie/QTS000035/QTD000584/QTD000584.credible_sets.tsv.gz
 
+#Download gene and protein metadata
+wget https://zenodo.org/record/7808390/files/gene_counts_Ensembl_105_phenotype_metadata.tsv.gz
+wget https://zenodo.org/record/7808390/files/SomaLogic_Ensembl_96_phenotype_metadata.tsv.gz
+
 #Download GWAS data
 wget https://zenodo.org/record/7901534/files/VitD.clpp_combined.tsv.gz
 wget https://zenodo.org/record/7901534/files/VitD.coloc3_combined.tsv.gz
