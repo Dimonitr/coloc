@@ -50,3 +50,4 @@ singularity_img/*
 *.tsv.gz*
 *.txt.gz*
 /test_*
+coloc.Rproj
