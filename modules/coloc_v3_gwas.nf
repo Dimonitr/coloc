@@ -23,7 +23,7 @@ process run_coloc_v3{
 process merge_coloc_v3_results{
     publishDir "${params.outdir}/coloc_v3_results_merged/${eqtl_dataset_id}", mode: 'copy'
     container 'quay.io/eqtlcatalogue/colocalisation:v21.01.1'
-
+    
     input:
     tuple val(eqtl_dataset_id), val(eqtl_gwas_id), file(eqtl_gwas_coloc_results_batch_files)
 

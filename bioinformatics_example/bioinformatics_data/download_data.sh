@@ -1,3 +1,11 @@
+#!/bin/bash
+
+#SBATCH -J data_download
+#SBATCH -N 1
+#SBATCH -t 06:00:00
+#SBATCH --mem=8GB
+#SBATCH --partition=main
+
 #Download eQTL data
 wget http://ftp.ebi.ac.uk/pub/databases/spot/eQTL/sumstats/QTS000013/QTD000110/QTD000110.cc.tsv.gz
 wget http://ftp.ebi.ac.uk/pub/databases/spot/eQTL/sumstats/QTS000013/QTD000110/QTD000110.cc.tsv.gz.tbi
