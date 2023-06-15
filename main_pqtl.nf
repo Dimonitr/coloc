@@ -15,11 +15,17 @@ Channel.fromPath(params.pqtl_tsv)
 Channel.fromList(params.chromosomes.split(",") as List)
     .set{ chromosome_ch }
 
+Channel.fromPath(params.eqtl_tsv)
+    .ifEmpty { error "Cannot find eQTL file: ${params.eqtl_tsv}" }
+    .splitCsv(header: true, sep: '\t', strip: true)
+    .map{row -> [ row.eqtl_dataset_id, file(row.eqtl_metadata)]}
+    .set{ eqtl_metadata_ch }
+
 process create_reference_file{
     container = 'quay.io/eqtlcatalogue/coloc:v23.05.1'
 
     input:
-    tuple val(eqtl_dataset_id), file(eqtl_sumstats), file(eqtl_sumstats_index), file(eqtl_permuted), file(eqtl_credible_sets), file(eqtl_lbf)
+    tuple val(eqtl_dataset_id), file(eqtl_sumstats), file(eqtl_sumstats_index), file(eqtl_permuted), file(eqtl_credible_sets), file(eqtl_lbf), file(eqtl_metadata)
 
     output:
     tuple val(eqtl_dataset_id), file("${eqtl_dataset_id}.gene_positions.tsv")
@@ -28,7 +34,7 @@ process create_reference_file{
     """
     Rscript $baseDir/bin/gene_meta.R \\
         --permutation_file ${eqtl_permuted} \\
-        --metadata_file ${params.metadata_file} \\
+        --metadata_file ${eqtl_metadata} \\
         --qtl_dataset ${eqtl_dataset_id};
     """
 }
@@ -89,7 +95,7 @@ workflow coloc_v3{
 }
 
 workflow{
-    create_reference_file(eqtl_raw_ch)
+    create_reference_file(eqtl_raw_ch.combine(eqtl_metadata_ch, by: 0))
     coloc_v5(create_reference_file.out)
     coloc_v3(create_reference_file.out)
     run_clpp(eqtl_raw_ch.combine(pqtl_raw_ch))
